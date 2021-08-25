@@ -1,0 +1,10 @@
+---
+title: "**Homework 1**"
+output: github_document
+---
+# **Section 1**
+This is my **first** attempt at R, the assignment is *Homework 1*
+
+```{r}
+2+2
+```
