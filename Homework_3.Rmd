@@ -1,0 +1,14 @@
+---
+title: "Homework 3"
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = manufacturer, color = year))
+
+#The purpose of this plot was to asses which class of vehicles are primarily produced by which manufacturers. The plot suggests that the two most universally produced classes of vehicles are SUVs and midsize ones. 
+```
+
