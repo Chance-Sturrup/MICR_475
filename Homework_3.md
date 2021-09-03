@@ -1,6 +1,10 @@
 Homework 3
 ================
 
+Different manufacturers produce different classes of vehicles. I want to
+investigate which classes of vehicle are most widespread throughout
+different manufacturers, and whether this trend has changed over time.
+
 ``` r
 library(tidyverse)
 ```
@@ -23,6 +27,6 @@ ggplot(data = mpg) +
 
 ![](Homework_3_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
 
-``` r
-#The purpose of this plot was to asses which class of vehicles are primarily produced by which manufacturers. The plot suggests that the two most universally produced classes of vehicles are SUVs and midsize ones. 
-```
+The plot suggests that the two most universally produced classes of
+vehicles are SUVs and midsize ones. The creation of midsize vehicles is
+also a more recent addition to the automobile industry.
