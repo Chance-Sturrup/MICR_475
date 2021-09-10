@@ -33,11 +33,11 @@ library(nycflights13)
 AA_flights <- filter(flights, carrier == "AA")
 
 ggplot(data = AA_flights) +
-geom_point(mapping = aes(x = dep_delay, y = arr_delay, color = month))
+  geom_point(mapping = aes(x = dep_delay, y = arr_delay, color = as.factor(month)))
 ```
 
 ![](hw_4_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 The data shows that most arrival and departure delays are between 0 and
-500 minutes in length and that these delays are concentrated in the
-later months of the year.
+500 minutes in length and that these delays are concentrated from July
+to September
