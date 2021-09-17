@@ -1,0 +1,62 @@
+---
+title: "Homework 5"
+output: github_document
+---
+This assignment focuses on the manipulation of the *diamonds* data set, specifically using the dplyr functions.
+
+**Part 1**
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+diamonds.cut <- diamonds %>%
+  group_by(cut)
+
+count(diamonds.cut, cut)
+###Grouping the diamonds data set by cut and then counting the number of values for each category of cut. 
+
+```
+
+**Part 2**
+```{r}
+dplyr::sample_frac(diamonds.cut, 0.1, replace = TRUE)
+###The diamonds data set has been organized by cut and 1% of the data points have been selected at random.
+```
+
+**Part 3**
+```{r}
+diamonds.size <- diamonds %>%
+  group_by(clarity)
+
+dplyr::slice_max(diamonds.size, order_by = carat,n = 100, with_ties = FALSE) %>%
+  dplyr::summarise(average.size = mean(carat))
+
+###The average size of the largest 100 diamonds in each clarity category
+```
+
+**Part 4**
+Plotting the length, width, and depth of each diamond
+
+```{r, message=FALSE, warning=FALSE}
+
+ggplot(data = diamonds.cut) +
+  geom_point(mapping = aes(x = x, y = y))
+
+ggplot(data = diamonds.cut) +
+  geom_point(mapping = aes(x = x, y = z))
+
+```
+
+**Part 5**
+
+Plotting the length, width, and depth of each diamond with questionable points removed. 
+```{r}
+diamonds.organized <- diamonds %>%
+  filter(x >3, y < 20, z < 10)
+
+ggplot(data = diamonds.organized) +
+  geom_point(mapping = aes(x = x, y = y))
+
+ggplot(data = diamonds.organized) +
+  geom_point(mapping = aes(x = x, y = z))
+```
+
