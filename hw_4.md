@@ -1,7 +1,9 @@
 Homework 4
 ================
 
-\#**Part 1** Using variables with addition
+# **Part 1**
+
+Using variables with addition
 
 ``` r
 a <- 3
@@ -12,7 +14,9 @@ print(a + b)
 
     ## [1] 5
 
-\#**Part 2** Using the sum function
+# **Part 2**
+
+Using the sum function
 
 ``` r
 sum(2,3)
@@ -20,7 +24,9 @@ sum(2,3)
 
     ## [1] 5
 
-\#**Part 3** Scatterplot of arrival delay versus departure delay
+# **Part 3**
+
+Scatterplot of arrival delay versus departure delay
 
 ``` r
 ####

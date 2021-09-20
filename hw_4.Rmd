@@ -2,7 +2,7 @@
 title: "Homework 4"
 output: github_document
 ---
-#**Part 1**
+# **Part 1**
 Using variables with addition
 ```{r}
 a <- 3
@@ -10,12 +10,12 @@ b <- 2
 
 print(a + b)
 ```
-#**Part 2**
+# **Part 2**
 Using the sum function
 ```{r}
 sum(2,3)
 ```
-#**Part 3**
+# **Part 3**
 Scatterplot of arrival delay versus departure delay
 ```{r, message=FALSE, warning=FALSE}
 ####
