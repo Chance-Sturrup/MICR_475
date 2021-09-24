@@ -6,7 +6,7 @@ output: github_document
 
 The good plot comes from Williams et. al and focuses on the identification of fatty acids in Mars analog environments. 
 
-![Good Plot](/Users/Chance/Reproducible Data Analysis/MICR_475/Images/goodplotexample.png)
+![Good Plot](Images/goodplotexample.png)
 
 The data named "Retention Time" is mapped to the x-axis.
 
@@ -19,7 +19,7 @@ The data is displayed as a line graph, with peaks in abundance labeled with the 
 
 The bad plot comes from an article by Dartnell et. al which focuses on the surface and subsurface radiation environment on Mars. 
 
-![Bad Plot](/Users/Chance/Reproducible Data Analysis/MICR_475/Images/badplotexample.png)
+![Bad Plot](Images/badplotexample.png)
 
 The data named "energy" is mapped to the x-axis.
 

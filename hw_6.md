@@ -6,8 +6,7 @@ Homework 6
 The good plot comes from Williams et. al and focuses on the
 identification of fatty acids in Mars analog environments.
 
-![Good
-Plot](/Users/Chance/Reproducible%20Data%20Analysis/MICR_475/Images/goodplotexample.png)
+![Good Plot](Images/goodplotexample.png)
 
 The data named “Retention Time” is mapped to the x-axis.
 
@@ -21,8 +20,7 @@ with the a corresponsing fatty acid detected at that time.
 The bad plot comes from an article by Dartnell et. al which focuses on
 the surface and subsurface radiation environment on Mars.
 
-![Bad
-Plot](/Users/Chance/Reproducible%20Data%20Analysis/MICR_475/Images/badplotexample.png)
+![Bad Plot](Images/badplotexample.png)
 
 The data named “energy” is mapped to the x-axis.
 
