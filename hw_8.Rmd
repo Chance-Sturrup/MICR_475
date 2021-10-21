@@ -1,0 +1,58 @@
+---
+title: "Homework 8"
+output: github_document
+---
+#Question 1
+Plotting the relationship of price as a function of weight for each color in order of decreasing slope for the *diamonds* data set.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(modelr)
+glimpse(diamonds)
+
+ggplot(data = diamonds) +
+  geom_point(aes(x=carat, y=price, color = color))
+
+dmd <- diamonds %>%
+  group_by(color) %>%
+  nest()
+```
+```{r, message=FALSE, warning=FALSE}
+color_model <- function(df)
+  lm(price~carat, data = df)
+
+dmd <- dmd %>%
+  mutate(model = map(data, color_model))
+
+dmd <- dmd %>%
+  mutate(predicts = map2(data, model, add_predictions))
+
+predicts <- unnest(dmd, predicts)
+
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(data = predicts) +
+  geom_line(aes(x=carat, y=pred)) +
+  geom_point(aes(x=carat, y=price)) +
+  facet_wrap(~color)
+
+```
+
+#Question 2
+
+Nonlinear least squares models.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+glimpse(DNase)
+
+ggplot(data=DNase) +
+  geom_point(aes(conc, density))
+#Showing conc and density are not related in a linear way.
+```
+```{r, message=FALSE, warning=FALSE}
+
+```
+
