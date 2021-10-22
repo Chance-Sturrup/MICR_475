@@ -2,24 +2,28 @@
 title: "Homework 8"
 output: github_document
 ---
-#Question 1
+### Question 1
 Plotting the relationship of price as a function of weight for each color in order of decreasing slope for the *diamonds* data set.
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(modelr)
-glimpse(diamonds)
 
 ggplot(data = diamonds) +
   geom_point(aes(x=carat, y=price, color = color))
 
+# plotting general relationship between carat and price for the whole data set
+
 dmd <- diamonds %>%
   group_by(color) %>%
   nest()
+
+# grouping by color and listing the data via nest
 ```
 ```{r, message=FALSE, warning=FALSE}
 color_model <- function(df)
   lm(price~carat, data = df)
+# Creating the linear model and primary function df
 
 dmd <- dmd %>%
   mutate(model = map(data, color_model))
@@ -29,6 +33,7 @@ dmd <- dmd %>%
 
 predicts <- unnest(dmd, predicts)
 
+# unnesting the list in order to plot the data
 ```
 
 
@@ -38,21 +43,56 @@ ggplot(data = predicts) +
   geom_point(aes(x=carat, y=price)) +
   facet_wrap(~color)
 
+arrange(predicts, desc(color))
+
 ```
 
-#Question 2
+### Question 2
 
-Nonlinear least squares models.
+Fitting nonlinear models using either a monod model or a single square root model and comparing the effectiveness of both at displaying the DNase data set. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
-glimpse(DNase)
 
 ggplot(data=DNase) +
   geom_point(aes(conc, density))
-#Showing conc and density are not related in a linear way.
+# Showing conc and density are not related in a linear way.
 ```
 ```{r, message=FALSE, warning=FALSE}
+library(nls2)
+library(proto)
+
+nls_mod <- formula(density ~ beta_1 * sqrt(conc) + beta_0)
+
+single_sqrt_model <- nls2(nls_mod, data = DNase, start = list(beta_1 =0.5, beta_0 = 0.1))
+
+summary(single_sqrt_model)
+
+# Creating the square root model
+```
+```{r, message=FALSE, warning=TRUE}
+max(DNase$density)
+
+nls_mod2 <- formula(density ~ (conc * Dmax)/(conc + k))
+
+monod_model <- nls2(nls_mod2, data = DNase, start = list(Dmax = 2.003, k = 2.003/2))
+
+summary(monod_model)
+
+# Creating the monod model and defining the variables Dmax and K
 
 ```
 
+```{r, message=FALSE, warning=FALSE}
+glimpse(DNase)
+DNaseR <- DNase%>%
+  group_by(Run) %>%
+  nest()
+# Generating a list with each of the 11 runs grouped.
+
+
+                
+#Applied calculated formulas across grouped values.
+```
+
+I could not figure out how to apply the formulas across the nested lists by the deadline. I will continue to trouble shoot the problem and resubmit as soon as possible. 
