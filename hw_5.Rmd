@@ -18,7 +18,7 @@ count(diamonds.cut, cut)
 
 **Part 2**
 ```{r}
-dplyr::sample_frac(diamonds.cut, 0.1, replace = TRUE)
+sample_frac(diamonds.cut, 0.1, replace = TRUE)
 ###The diamonds data set has been organized by cut and 1% of the data points have been selected at random.
 ```
 
@@ -27,8 +27,8 @@ dplyr::sample_frac(diamonds.cut, 0.1, replace = TRUE)
 diamonds.size <- diamonds %>%
   group_by(clarity)
 
-dplyr::slice_max(diamonds.size, order_by = carat,n = 100, with_ties = FALSE) %>%
-  dplyr::summarise(average.size = mean(carat))
+slice_max(diamonds.size, order_by = carat,n = 100, with_ties = FALSE) %>%
+  summarise(average.size = mean(carat))
 
 ###The average size of the largest 100 diamonds in each clarity category
 ```
@@ -51,7 +51,7 @@ ggplot(data = diamonds.cut) +
 Plotting the length, width, and depth of each diamond with questionable points removed. 
 ```{r}
 diamonds.organized <- diamonds %>%
-  filter(x >3, y < 20, z < 10)
+  filter(x >3, y < 20, y > 1, z < 10, z > 2)
 
 ggplot(data = diamonds.organized) +
   geom_point(mapping = aes(x = x, y = y))

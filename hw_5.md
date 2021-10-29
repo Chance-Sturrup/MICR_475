@@ -32,23 +32,23 @@ count(diamonds.cut, cut)
 **Part 2**
 
 ``` r
-dplyr::sample_frac(diamonds.cut, 0.1, replace = TRUE)
+sample_frac(diamonds.cut, 0.1, replace = TRUE)
 ```
 
     ## # A tibble: 5,394 × 10
     ## # Groups:   cut [5]
     ##    carat cut   color clarity depth table price     x     y     z
     ##    <dbl> <ord> <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl>
-    ##  1  1.05 Fair  G     VS1      65.6    58  7283  6.25  6.38  4.13
-    ##  2  1.16 Fair  G     SI2      60.1    60  4307  6.9   6.72  4.09
-    ##  3  1.02 Fair  F     SI1      61.8    50  4227  6.59  6.51  4.05
-    ##  4  1.64 Fair  G     I1       64.5    60  4849  7.44  7.35  4.76
-    ##  5  0.35 Fair  D     VVS2     53.2    62  1011  4.87  4.8   2.57
-    ##  6  0.75 Fair  F     SI1      64.5    60  2363  5.65  5.54  3.61
-    ##  7  0.98 Fair  H     SI2      67.9    60  2777  6.05  5.97  4.08
-    ##  8  2    Fair  I     SI2      65.9    57 10833  7.96  7.79  5.19
-    ##  9  1.55 Fair  H     SI2      64.6    58  9045  7.28  7.21  4.68
-    ## 10  1    Fair  H     VS2      64.8    62  4861  6.22  6.13  4   
+    ##  1  1    Fair  D     VVS1     56.7    68 10752  6.66  6.64  3.77
+    ##  2  1    Fair  F     SI1      65.4    59  4798  6.27  6.2   4.08
+    ##  3  0.7  Fair  D     SI2      65.5    57  1806  5.56  5.43  3.6 
+    ##  4  0.7  Fair  E     SI1      64.4    53  2697  5.61  5.57  3.6 
+    ##  5  1.51 Fair  G     VS1      60.8    66 12948  7.35  7.25  4.44
+    ##  6  1.02 Fair  H     SI1      56.9    58  4935  6.64  6.75  3.81
+    ##  7  0.7  Fair  G     SI2      65.2    56  2117  5.63  5.54  3.64
+    ##  8  0.3  Fair  F     VS2      64.5    55   662  4.31  4.19  2.74
+    ##  9  0.5  Fair  F     VS2      55.8    60  1279  5.31  5.27  2.95
+    ## 10  1.2  Fair  I     I1       65.1    55  2376  6.65  6.59  4.31
     ## # … with 5,384 more rows
 
 ``` r
@@ -61,8 +61,8 @@ dplyr::sample_frac(diamonds.cut, 0.1, replace = TRUE)
 diamonds.size <- diamonds %>%
   group_by(clarity)
 
-dplyr::slice_max(diamonds.size, order_by = carat,n = 100, with_ties = FALSE) %>%
-  dplyr::summarise(average.size = mean(carat))
+slice_max(diamonds.size, order_by = carat,n = 100, with_ties = FALSE) %>%
+  summarise(average.size = mean(carat))
 ```
 
     ## # A tibble: 8 × 2
@@ -104,7 +104,7 @@ points removed.
 
 ``` r
 diamonds.organized <- diamonds %>%
-  filter(x >3, y < 20, z < 10)
+  filter(x >3, y < 20, y > 1, z < 10, z > 2)
 
 ggplot(data = diamonds.organized) +
   geom_point(mapping = aes(x = x, y = y))
