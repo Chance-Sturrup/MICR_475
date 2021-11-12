@@ -3,7 +3,8 @@ Final Project Check-in
 
 The application accident\_tracker and its associated functions will
 serve as a tool to filter and present information related to accidents
-in an easy accessible format.
+in an easy accessible format. When presenting information it will have
+some analysis of said data
 
 ##### *Planned Git Workflow*
 

@@ -3,7 +3,7 @@ title: "Final Project Check-in"
 output: github_document
 ---
 
-The application accident_tracker and its associated functions will serve as a tool to filter and present information related to accidents in an easy accessible format. 
+The application accident_tracker and its associated functions will serve as a tool to filter and present information related to accidents in an easy accessible format. When presenting information it will have some analysis of said data
 
 ##### *Planned Git Workflow*
 There will be a total of two git repositories for the project, one for the shiny application and one for the package containing the necessary functions for the app to run. These repositories are owned by a single group member, with the remaining three members all having forked versions of them. Any changes done by a single group member are initially done on the forked version before a pull request is sent to the main repositories and the versions merged if no issues arise and the changes are agreed upon. 
