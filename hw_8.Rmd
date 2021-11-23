@@ -62,37 +62,50 @@ ggplot(data=DNase) +
 library(nls2)
 library(proto)
 
+by_run <- DNase %>% 
+  group_by(Run) %>% 
+  nest()
 nls_mod <- formula(density ~ beta_1 * sqrt(conc) + beta_0)
-
-single_sqrt_model <- nls2(nls_mod, data = DNase, start = list(beta_1 =0.5, beta_0 = 0.1))
-
-summary(single_sqrt_model)
+single_sqrt_model <- function(ssm) {
+  nls2(nls_mod, 
+  data = ssm, 
+  start = list(beta_1 = 0.5, beta_0 = 0.1))
+}
+by_run <- by_run %>% 
+  mutate(model = map(data, single_sqrt_model ))
+glance <- by_run %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+ggplot(glance, aes(x=Run, y=AIC)) + 
+  geom_point() + 
+  ggtitle("Square root model")+
+ scale_x_discrete(limits=glance$Run)
 
 # Creating the square root model
 ```
 ```{r, message=FALSE, warning=TRUE}
-max(DNase$density)
 
-nls_mod2 <- formula(density ~ (conc * Dmax)/(conc + k))
-
-monod_model <- nls2(nls_mod2, data = DNase, start = list(Dmax = 2.003, k = 2.003/2))
-
-summary(monod_model)
+by_run_2 <- DNase %>% 
+  group_by(Run) %>% 
+  nest()
+mon_mod <- formula(density ~ beta_3*conc / (beta_4+conc))
+monod_model <- function(mm) {
+  nls2(mon_mod, 
+  data = mm, 
+  start = list(beta_3 = 2, beta_4 = 3))
+}
+by_run_2 <- by_run_2 %>% 
+  mutate(model = map(data, monod_model ))
+glance <- by_run_2 %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+ggplot(glance, aes(x=Run, y=AIC)) + 
+  geom_point() + 
+  ggtitle("Monod-type model")+
+ scale_x_discrete(limits=glance$Run)
 
 # Creating the monod model and defining the variables Dmax and K
 
 ```
 
-```{r, message=FALSE, warning=FALSE}
-glimpse(DNase)
-DNaseR <- DNase%>%
-  group_by(Run) %>%
-  nest()
-# Generating a list with each of the 11 runs grouped.
-
-
-                
-#Applied calculated formulas across grouped values.
-```
-
-I could not figure out how to apply the formulas across the nested lists by the deadline. I will continue to trouble shoot the problem and resubmit as soon as possible. 
+Based on the shapes of the plots, it appears that the monod-type model is the better of the two to display the data.

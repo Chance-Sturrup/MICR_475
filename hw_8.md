@@ -94,85 +94,58 @@ ggplot(data=DNase) +
 library(nls2)
 library(proto)
 
+by_run <- DNase %>% 
+  group_by(Run) %>% 
+  nest()
 nls_mod <- formula(density ~ beta_1 * sqrt(conc) + beta_0)
-
-single_sqrt_model <- nls2(nls_mod, data = DNase, start = list(beta_1 =0.5, beta_0 = 0.1))
-
-summary(single_sqrt_model)
+single_sqrt_model <- function(ssm) {
+  nls2(nls_mod, 
+  data = ssm, 
+  start = list(beta_1 = 0.5, beta_0 = 0.1))
+}
+by_run <- by_run %>% 
+  mutate(model = map(data, single_sqrt_model ))
+glance <- by_run %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+ggplot(glance, aes(x=Run, y=AIC)) + 
+  geom_point() + 
+  ggtitle("Square root model")+
+ scale_x_discrete(limits=glance$Run)
 ```
 
-    ## 
-    ## Formula: density ~ beta_1 * sqrt(conc) + beta_0
-    ## 
-    ## Parameters:
-    ##         Estimate Std. Error t value Pr(>|t|)    
-    ## beta_1  0.550521   0.006287   87.57  < 2e-16 ***
-    ## beta_0 -0.053297   0.011081   -4.81 3.26e-06 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 0.08897 on 174 degrees of freedom
-    ## 
-    ## Number of iterations to convergence: 1 
-    ## Achieved convergence tolerance: 6.129e-08
+![](hw_8_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 # Creating the square root model
 ```
 
 ``` r
-max(DNase$density)
+by_run_2 <- DNase %>% 
+  group_by(Run) %>% 
+  nest()
+mon_mod <- formula(density ~ beta_3*conc / (beta_4+conc))
+monod_model <- function(mm) {
+  nls2(mon_mod, 
+  data = mm, 
+  start = list(beta_3 = 2, beta_4 = 3))
+}
+by_run_2 <- by_run_2 %>% 
+  mutate(model = map(data, monod_model ))
+glance <- by_run_2 %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+ggplot(glance, aes(x=Run, y=AIC)) + 
+  geom_point() + 
+  ggtitle("Monod-type model")+
+ scale_x_discrete(limits=glance$Run)
 ```
 
-    ## [1] 2.003
-
-``` r
-nls_mod2 <- formula(density ~ (conc * Dmax)/(conc + k))
-
-monod_model <- nls2(nls_mod2, data = DNase, start = list(Dmax = 2.003, k = 2.003/2))
-
-summary(monod_model)
-```
-
-    ## 
-    ## Formula: density ~ (conc * Dmax)/(conc + k)
-    ## 
-    ## Parameters:
-    ##      Estimate Std. Error t value Pr(>|t|)    
-    ## Dmax  2.28032    0.02189  104.16   <2e-16 ***
-    ## k     3.68241    0.08677   42.44   <2e-16 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 0.04909 on 174 degrees of freedom
-    ## 
-    ## Number of iterations to convergence: 6 
-    ## Achieved convergence tolerance: 2.375e-06
+![](hw_8_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Creating the monod model and defining the variables Dmax and K
 ```
 
-``` r
-glimpse(DNase)
-```
-
-    ## Rows: 176
-    ## Columns: 3
-    ## $ Run     <ord> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…
-    ## $ conc    <dbl> 0.04882812, 0.04882812, 0.19531250, 0.19531250, 0.39062500, 0.…
-    ## $ density <dbl> 0.017, 0.018, 0.121, 0.124, 0.206, 0.215, 0.377, 0.374, 0.614,…
-
-``` r
-DNaseR <- DNase%>%
-  group_by(Run) %>%
-  nest()
-# Generating a list with each of the 11 runs grouped.
-
-                
-#Applied calculated formulas across grouped values.
-```
-
-I could not figure out how to apply the formulas across the nested lists
-by the deadline. I will continue to trouble shoot the problem and
-resubmit as soon as possible.
+Based on the shapes of the plots, it appears that the monod-type model
+is the better of the two to display the data.
